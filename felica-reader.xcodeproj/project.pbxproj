@@ -18,7 +18,7 @@
 
 /* Begin PBXFileReference section */
 		0AA2679823C605DF006835B8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		CD8BF5F622A841DF00490877 /* felica-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "felica-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8BF5F622A841DF00490877 /* 出席確認.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出席確認.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8BF5F922A841DF00490877 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD8BF5FB22A841DF00490877 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CD8BF5FD22A841DF00490877 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		CD8BF5F722A841DF00490877 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CD8BF5F622A841DF00490877 /* felica-reader.app */,
+				CD8BF5F622A841DF00490877 /* 出席確認.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -89,7 +89,7 @@
 			);
 			name = "felica-reader";
 			productName = "felica-reader";
-			productReference = CD8BF5F622A841DF00490877 /* felica-reader.app */;
+			productReference = CD8BF5F622A841DF00490877 /* 出席確認.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -299,7 +299,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "felica-reader.attendance-confirmation";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "出席確認";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -318,7 +318,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "felica-reader.attendance-confirmation";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "出席確認";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
