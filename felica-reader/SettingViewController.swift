@@ -9,7 +9,7 @@
 import UIKit
 import CoreNFC
 
-class SettingViewController: UIViewController, NFCTagReaderSessionDelegate {
+class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITableViewDelegate, UITableViewDataSource {
 
     var session: NFCTagReaderSession?
     
@@ -63,7 +63,6 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate {
                 }
             }
         }
-        
         self.session = nil
     }
     
@@ -110,16 +109,41 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate {
             session.invalidate()
         }
     }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return userArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool{
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // セルを取得する
+        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        // セルに表示する値を設定する
+        cell.textLabel!.text = String(userArray[indexPath.row][0] + "," + userArray[indexPath.row][1])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete {
+            userArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath as IndexPath], with: UITableView.RowAnimation.automatic)
+            userDefaults.set(userArray, forKey: "userArray")
+        }
+    }
 
     @IBAction func setName(){
-        var Array : [String] = ["",""]
+        var Array : [String] = ["","",""]
         Array[0] = ICNumber.text!
         Array[1] = nameTextField.text!
+        Array[2] = "0"
         userArray += [Array]
         print(userArray)
         userDefaults.set(userArray, forKey: "userArray")
+        let parentVC = presentingViewController as! ViewController
+        parentVC.update()
         self.dismiss(animated: true, completion: nil)
     }
-
 }
-

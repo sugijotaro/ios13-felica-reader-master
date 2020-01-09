@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CD8BF5F522A841DF00490877"
-               BuildableName = "felica-reader.app"
+               BuildableName = "&#x51fa;&#x5e2d;&#x78ba;&#x8a8d;.app"
                BlueprintName = "felica-reader"
                ReferencedContainer = "container:felica-reader.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CD8BF5F522A841DF00490877"
-            BuildableName = "felica-reader.app"
+            BuildableName = "&#x51fa;&#x5e2d;&#x78ba;&#x8a8d;.app"
             BlueprintName = "felica-reader"
             ReferencedContainer = "container:felica-reader.xcodeproj">
          </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CD8BF5F522A841DF00490877"
-            BuildableName = "felica-reader.app"
+            BuildableName = "&#x51fa;&#x5e2d;&#x78ba;&#x8a8d;.app"
             BlueprintName = "felica-reader"
             ReferencedContainer = "container:felica-reader.xcodeproj">
          </BuildableReference>

@@ -32,15 +32,13 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
     
     var userDefaults = UserDefaults.standard
     var userArray:[[String]] = []
-    
+    var logArray:[[String]] = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if userDefaults.array(forKey: "userArray") != nil{
-            userArray = userDefaults.array(forKey: "userArray") as! [[String]]
-        }
+        update()
     }
     
     @IBAction func beginScanning(_ sender: UIButton) {
@@ -120,9 +118,31 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             let f = DateFormatter()
             f.setTemplate(.full)
             let now = Date()
-            
-            if self.userArray[0][0] == idm {
-                session.alertMessage = "こんにちは！ \(self.userArray[0][1])\n入室時間：\(f.string(from: now))"
+            if let user = self.userArray.filter({ $0[0] == idm }).first{
+//            if self.userArray[0][0] == idm{
+                if self.userArray[0][2] == "2"{//退出
+                    session.alertMessage = "さようなら！ \(user[1])\n退室時間：\(f.string(from: now))"
+                    var Array : [String] = ["","",""]
+                    Array[0] = self.userArray[0][1] //名前
+                    Array[1] = f.string(from: now) //時間
+                    Array[2] = "退室"
+                    self.logArray += [Array]
+                    print(self.logArray)
+                    self.userDefaults.set(self.logArray, forKey: "logArray")
+                    self.userArray[0][2] = "1"
+                    self.userDefaults.set(self.userArray, forKey: "userArray")
+                }else{//入室
+                    session.alertMessage = "こんにちは！ \(user[1])\n入室時間：\(f.string(from: now))"
+                    var Array : [String] = ["","",""]
+                    Array[0] = self.userArray[0][1] //名前
+                    Array[1] = f.string(from: now) //時間
+                    Array[2] = "入室"
+                    self.logArray += [Array]
+                    print(self.logArray)
+                    self.userDefaults.set(self.logArray, forKey: "logArray")
+                    self.userArray[0][2] = "2"
+                    self.userDefaults.set(self.userArray, forKey: "userArray")
+                }
             } else {
                 session.alertMessage = "はじめまして\nユーザー登録をしてください"
             }
@@ -131,7 +151,14 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             session.invalidate()
         }
     }
-
-
+    
+    func update(){
+        if userDefaults.array(forKey: "userArray") != nil{
+            userArray = userDefaults.array(forKey: "userArray") as! [[String]]
+        }
+        if userDefaults.array(forKey: "logArray") != nil{
+            logArray = userDefaults.array(forKey: "logArray") as! [[String]]
+        }
+    }
 }
 
