@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreNFC
+import AudioToolbox
 
 class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITableViewDelegate, UITableViewDataSource {
 
@@ -30,8 +31,8 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
     @IBAction func beginScanning(_ sender: UIButton) {
         guard NFCTagReaderSession.readingAvailable else {
             let alertController = UIAlertController(
-                title: "Scanning Not Supported",
-                message: "This device doesn't support tag scanning.",
+                title: "スキャンはサポートされていません",
+                message: "このデバイスはICカードのスキャンをサポートしていません。",
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -40,7 +41,7 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
         }
         
         self.session = NFCTagReaderSession(pollingOption: .iso18092, delegate: self)
-        self.session?.alertMessage = "Hold your iPhone near the item to learn more about it."
+        self.session?.alertMessage = "ICカードをiPhoneの上部の背面にかざしてください。"
         self.session?.begin()
     }
     
@@ -53,7 +54,7 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
             if (readerError.code != .readerSessionInvalidationErrorFirstNDEFTagRead)
                 && (readerError.code != .readerSessionInvalidationErrorUserCanceled) {
                 let alertController = UIAlertController(
-                    title: "Session Invalidated",
+                    title: "セッションが無効化されました",
                     message: error.localizedDescription,
                     preferredStyle: .alert
                 )
@@ -71,7 +72,7 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
         
         if tags.count > 1 {
             let retryInterval = DispatchTimeInterval.milliseconds(500)
-            session.alertMessage = "More than 1 tag is detected, please remove all tags and try again."
+            session.alertMessage = "複数のICカードが検出されました。ICカードを一つにした上、もう一度やり直してください。"
             DispatchQueue.global().asyncAfter(deadline: .now() + retryInterval, execute: {
                 session.restartPolling()
             })
@@ -82,13 +83,13 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
         
         session.connect(to: tag) { (error) in
             if nil != error {
-                session.invalidate(errorMessage: "Connection error. Please try again.")
+                session.invalidate(errorMessage: "接続エラーです。再度読み取り位置をご確認の上、もう一度やり直してください。")
                 return
             }
             
             guard case .feliCa(let feliCaTag) = tag else {
                 let retryInterval = DispatchTimeInterval.milliseconds(500)
-                session.alertMessage = "A tag that is not FeliCa is detected, please try again with tag FeliCa."
+                session.alertMessage = "FeliCaではないタグが検出されました。FeliCaで再試行してください。"
                 DispatchQueue.global().asyncAfter(deadline: .now() + retryInterval, execute: {
                     session.restartPolling()
                 })
@@ -133,17 +134,49 @@ class SettingViewController: UIViewController, NFCTagReaderSessionDelegate, UITa
             userDefaults.set(userArray, forKey: "userArray")
         }
     }
-
-    @IBAction func setName(){
-        var Array : [String] = ["","",""]
-        Array[0] = ICNumber.text!
-        Array[1] = nameTextField.text!
-        Array[2] = "0"
-        userArray += [Array]
-        print(userArray)
-        userDefaults.set(userArray, forKey: "userArray")
+    
+    @IBAction func backButton(){
         let parentVC = presentingViewController as! ViewController
         parentVC.update()
         self.dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func setName(){
+        if ICNumber.text! != "" && nameTextField.text! != ""{
+            if let userIndex = self.userArray.firstIndex(where: { $0[0] == ICNumber.text! }){
+                AudioServicesPlaySystemSound(1102)
+                let alert: UIAlertController = UIAlertController(title: "エラー", message: "このICカードは既に登録されています。", preferredStyle:  UIAlertController.Style.alert)
+                let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                    // ボタンが押された時の処理を書く（クロージャ実装）
+                    (action: UIAlertAction!) -> Void in
+                })
+                alert.addAction(defaultAction)
+                present(alert, animated: true, completion: nil)
+                print("もう設定してあるやん")
+            } else {
+                AudioServicesPlaySystemSound(1520)
+                var Array : [String] = ["","",""]
+                Array[0] = ICNumber.text!
+                Array[1] = nameTextField.text!
+                Array[2] = "1"  //1は外出中・2は出席中
+                userArray += [Array]
+                print(userArray)
+                print("記入完了")
+                userDefaults.set(userArray, forKey: "userArray")
+                let parentVC = presentingViewController as! ViewController
+                parentVC.update()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }else{
+            AudioServicesPlaySystemSound(1102)
+            let alert: UIAlertController = UIAlertController(title: "エラー", message: "必要事項を全て入力してください。", preferredStyle:  UIAlertController.Style.alert)
+            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                // ボタンが押された時の処理を書く（クロージャ実装）
+                (action: UIAlertAction!) -> Void in
+            })
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+            print("ダメじゃん")
+        }
     }
 }

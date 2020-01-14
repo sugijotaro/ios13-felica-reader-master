@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreNFC
+import AudioToolbox
 
 extension DateFormatter {
     // テンプレートの定義(例)
@@ -34,18 +35,27 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
     var userArray:[[String]] = []
     var logArray:[[String]] = []
     
+    @IBOutlet var dateLabel :UILabel!
+    @IBOutlet var timeLabel :UILabel!
+    
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         update()
+        nowTime()
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+            self.nowTime()
+        })
     }
     
     @IBAction func beginScanning(_ sender: UIButton) {
+        AudioServicesPlaySystemSound(1520)
         guard NFCTagReaderSession.readingAvailable else {
             let alertController = UIAlertController(
-                title: "Scanning Not Supported",
-                message: "This device doesn't support tag scanning.",
+                title: "スキャンはサポートされていません",
+                message: "このデバイスはICカードのスキャンをサポートしていません。",
                 preferredStyle: .alert
             )
             alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -54,7 +64,7 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
         }
 
         self.session = NFCTagReaderSession(pollingOption: .iso18092, delegate: self)
-        self.session?.alertMessage = "Hold your iPhone near the item to learn more about it."
+        self.session?.alertMessage = "ICカードをiPhoneの上部の背面にかざしてください。"
         self.session?.begin()
     }
 
@@ -67,7 +77,7 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             if (readerError.code != .readerSessionInvalidationErrorFirstNDEFTagRead)
                 && (readerError.code != .readerSessionInvalidationErrorUserCanceled) {
                 let alertController = UIAlertController(
-                    title: "Session Invalidated",
+                    title: "セッションが無効化されました",
                     message: error.localizedDescription,
                     preferredStyle: .alert
                 )
@@ -86,7 +96,7 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
 
         if tags.count > 1 {
             let retryInterval = DispatchTimeInterval.milliseconds(500)
-            session.alertMessage = "More than 1 tag is detected, please remove all tags and try again."
+            session.alertMessage = "複数のICカードが検出されました。ICカードを一つにした上、もう一度やり直してください。"
             DispatchQueue.global().asyncAfter(deadline: .now() + retryInterval, execute: {
                 session.restartPolling()
             })
@@ -97,13 +107,13 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
 
         session.connect(to: tag) { (error) in
             if nil != error {
-                session.invalidate(errorMessage: "Connection error. Please try again.")
+                session.invalidate(errorMessage: "接続エラーです。再度読み取り位置をご確認の上、もう一度やり直してください。")
                 return
             }
 
             guard case .feliCa(let feliCaTag) = tag else {
                 let retryInterval = DispatchTimeInterval.milliseconds(500)
-                session.alertMessage = "A tag that is not FeliCa is detected, please try again with tag FeliCa."
+                session.alertMessage = "FeliCaではないタグが検出されました。FeliCaで再試行してください。"
                 DispatchQueue.global().asyncAfter(deadline: .now() + retryInterval, execute: {
                     session.restartPolling()
                 })
@@ -118,30 +128,33 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
             let f = DateFormatter()
             f.setTemplate(.full)
             let now = Date()
-            if let user = self.userArray.filter({ $0[0] == idm }).first{
-//            if self.userArray[0][0] == idm{
-                if self.userArray[0][2] == "2"{//退出
-                    session.alertMessage = "さようなら！ \(user[1])\n退室時間：\(f.string(from: now))"
+            if let userIndex = self.userArray.firstIndex(where: { $0[0] == idm }){    //idmとユーザーを照合
+                if self.userArray[userIndex][2] == "1"{
+                    session.alertMessage = "こんにちは！ \(self.userArray[userIndex][1])\n入室時間：\(f.string(from: now))"
                     var Array : [String] = ["","",""]
-                    Array[0] = self.userArray[0][1] //名前
-                    Array[1] = f.string(from: now) //時間
-                    Array[2] = "退室"
-                    self.logArray += [Array]
-                    print(self.logArray)
-                    self.userDefaults.set(self.logArray, forKey: "logArray")
-                    self.userArray[0][2] = "1"
-                    self.userDefaults.set(self.userArray, forKey: "userArray")
-                }else{//入室
-                    session.alertMessage = "こんにちは！ \(user[1])\n入室時間：\(f.string(from: now))"
-                    var Array : [String] = ["","",""]
-                    Array[0] = self.userArray[0][1] //名前
+                    Array[0] = self.userArray[userIndex][1] //名前
                     Array[1] = f.string(from: now) //時間
                     Array[2] = "入室"
                     self.logArray += [Array]
                     print(self.logArray)
                     self.userDefaults.set(self.logArray, forKey: "logArray")
-                    self.userArray[0][2] = "2"
+                    self.userArray[userIndex][2] = "2"
+                    print(self.userArray)
                     self.userDefaults.set(self.userArray, forKey: "userArray")
+                    print("入室完了")
+                }else if self.userArray[userIndex][2] == "2"{       //退室
+                    session.alertMessage = "さようなら！ \(self.userArray[userIndex][1])\n入室時間：\(f.string(from: now))"
+                    var Array : [String] = ["","",""]
+                    Array[0] = self.userArray[userIndex][1] //名前
+                    Array[1] = f.string(from: now) //時間
+                    Array[2] = "退室"
+                    self.logArray += [Array]
+                    print(self.logArray)
+                    self.userDefaults.set(self.logArray, forKey: "logArray")
+                    self.userArray[userIndex][2] = "1"
+                    print(self.userArray)
+                    self.userDefaults.set(self.userArray, forKey: "userArray")
+                    print("退室完了")
                 }
             } else {
                 session.alertMessage = "はじめまして\nユーザー登録をしてください"
@@ -150,6 +163,19 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
 //            session.alertMessage = "Read success!\nIDm: \(idm)\nSystem Code: \(systemCode)"
             session.invalidate()
         }
+    }
+    
+    func nowTime(){
+        let d = DateFormatter()
+        d.setTemplate(.date)
+        
+        let t = DateFormatter()
+        t.setTemplate(.time)
+        
+        let now = Date()
+        
+        dateLabel.text = d.string(from: now)
+        timeLabel.text = t.string(from: now)
     }
     
     func update(){

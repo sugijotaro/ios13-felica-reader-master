@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0AA2679923C605DF006835B8 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA2679823C605DF006835B8 /* SettingViewController.swift */; };
 		0AE379FF23C73FD4000FB862 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE379FE23C73FD4000FB862 /* LogViewController.swift */; };
+		8AC4833C23CCB0DC006CA17D /* button1.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AC4833B23CCB0DC006CA17D /* button1.png */; };
 		CD8BF5FA22A841DF00490877 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8BF5F922A841DF00490877 /* AppDelegate.swift */; };
 		CD8BF5FC22A841DF00490877 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8BF5FB22A841DF00490877 /* SceneDelegate.swift */; };
 		CD8BF5FE22A841DF00490877 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8BF5FD22A841DF00490877 /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		0AA2679823C605DF006835B8 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		0AE379FE23C73FD4000FB862 /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		8AC4833B23CCB0DC006CA17D /* button1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button1.png; sourceTree = SOURCE_ROOT; };
 		CD8BF5F622A841DF00490877 /* 出席確認.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "出席確認.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8BF5F922A841DF00490877 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD8BF5FB22A841DF00490877 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				0AA2679823C605DF006835B8 /* SettingViewController.swift */,
 				0AE379FE23C73FD4000FB862 /* LogViewController.swift */,
 				CD8BF5FF22A841DF00490877 /* Main.storyboard */,
+				8AC4833B23CCB0DC006CA17D /* button1.png */,
 				CD8BF60222A841E000490877 /* Assets.xcassets */,
 				CD8BF60422A841E000490877 /* LaunchScreen.storyboard */,
 				CD8BF60722A841E000490877 /* Info.plist */,
@@ -136,6 +139,7 @@
 				CD8BF60622A841E000490877 /* LaunchScreen.storyboard in Resources */,
 				CD8BF60322A841E000490877 /* Assets.xcassets in Resources */,
 				CD8BF60122A841DF00490877 /* Main.storyboard in Resources */,
+				8AC4833C23CCB0DC006CA17D /* button1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +306,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "felica-reader.attendance-confirmation";
+				PRODUCT_BUNDLE_IDENTIFIER = felica.access.management.system;
 				PRODUCT_NAME = "出席確認";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -321,7 +325,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "felica-reader.attendance-confirmation";
+				PRODUCT_BUNDLE_IDENTIFIER = felica.access.management.system;
 				PRODUCT_NAME = "出席確認";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
