@@ -229,14 +229,14 @@
                                     <action selector="backButton" destination="dKq-TJ-aAe" eventType="touchUpInside" id="iKj-C7-mgW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xtz-xT-ry5">
-                                <rect key="frame" x="230" y="10" width="129" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="ログを全て削除">
-                                    <color key="titleColor" red="1" green="0.3529411764705882" blue="0.3529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xtz-xT-ry5">
+                                <rect key="frame" x="329" y="10" width="30" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="20"/>
+                                <state key="normal" title="...">
+                                    <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="clearButton" destination="dKq-TJ-aAe" eventType="touchUpInside" id="8qq-JK-8qG"/>
+                                    <action selector="button" destination="dKq-TJ-aAe" eventType="touchUpInside" id="Iwe-FZ-K8c"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -254,6 +254,9 @@
                         <viewLayoutGuide key="safeArea" id="oMJ-yv-K2g"/>
                     </view>
                     <navigationItem key="navigationItem" id="JDE-Gp-8sZ"/>
+                    <connections>
+                        <outlet property="buttonA" destination="Xtz-xT-ry5" id="D4J-wH-OTq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Po-WL-zMr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

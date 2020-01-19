@@ -1,0 +1,39 @@
+
+/* Class = "UILabel"; text = "ユーザー一覧"; ObjectID = "2YU-rn-i5R"; */
+"2YU-rn-i5R.text" = "ユーザー一覧";
+
+/* Class = "UIButton"; normalTitle = "戻る"; ObjectID = "4ut-8r-wvM"; */
+"4ut-8r-wvM.normalTitle" = "戻る";
+
+/* Class = "UILabel"; text = "XX:XX"; ObjectID = "EXx-XL-gOa"; */
+"EXx-XL-gOa.text" = "XX:XX";
+
+/* Class = "UIButton"; normalTitle = "ユーザー登録"; ObjectID = "Qup-I5-AbL"; */
+"Qup-I5-AbL.normalTitle" = "ユーザー登録";
+
+/* Class = "UIButton"; normalTitle = "設定する"; ObjectID = "Qv4-AW-zE0"; */
+"Qv4-AW-zE0.normalTitle" = "設定する";
+
+/* Class = "UIButton"; normalTitle = "ログを全て削除"; ObjectID = "Xtz-xT-ry5"; */
+"Xtz-xT-ry5.normalTitle" = "ログを全て削除";
+
+/* Class = "UILabel"; text = "YYYY/MM/DD"; ObjectID = "aod-7q-QJv"; */
+"aod-7q-QJv.text" = "YYYY/MM/DD";
+
+/* Class = "UIButton"; normalTitle = "紐付けする"; ObjectID = "atb-8C-fSj"; */
+"atb-8C-fSj.normalTitle" = "紐付けする";
+
+/* Class = "UILabel"; text = "カードの番号："; ObjectID = "dou-yX-BSn"; */
+"dou-yX-BSn.text" = "カードの番号：";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "hUs-Ka-88g"; */
+"hUs-Ka-88g.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "戻る"; ObjectID = "kF1-rB-zUi"; */
+"kF1-rB-zUi.normalTitle" = "戻る";
+
+/* Class = "UILabel"; text = "あなたの名前："; ObjectID = "pS8-a7-ItI"; */
+"pS8-a7-ItI.text" = "あなたの名前：";
+
+/* Class = "UIButton"; normalTitle = "ログ"; ObjectID = "wnv-dE-AQ4"; */
+"wnv-dE-AQ4.normalTitle" = "ログ";

@@ -9,6 +9,7 @@
 import UIKit
 import CoreNFC
 import AudioToolbox
+import StoreKit
 
 extension DateFormatter {
     // テンプレートの定義(例)
@@ -40,8 +41,13 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
     
     var timer = Timer()
     
+    var count = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dateLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.bold)
+        timeLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.bold)
         
         update()
         nowTime()
@@ -143,7 +149,7 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
                     self.userDefaults.set(self.userArray, forKey: "userArray")
                     print("入室完了")
                 }else if self.userArray[userIndex][2] == "2"{       //退室
-                    session.alertMessage = "さようなら！ \(self.userArray[userIndex][1])\n入室時間：\(f.string(from: now))"
+                    session.alertMessage = "さようなら！ \(self.userArray[userIndex][1])\n退室時間：\(f.string(from: now))"
                     var Array : [String] = ["","",""]
                     Array[0] = self.userArray[userIndex][1] //名前
                     Array[1] = f.string(from: now) //時間
@@ -160,6 +166,18 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
                 session.alertMessage = "はじめまして\nユーザー登録をしてください"
             }
 
+            if self.userDefaults.integer(forKey: "count") != 0{
+                self.count = self.userDefaults.integer(forKey: "count")
+            }
+            if self.count < 10{
+                self.count = self.count + 1
+                self.userDefaults.set(self.count, forKey: "count")
+            } else {
+                SKStoreReviewController.requestReview()
+                self.count = 0
+                self.userDefaults.set(self.count, forKey: "count")
+            }
+            print(self.count)
 //            session.alertMessage = "Read success!\nIDm: \(idm)\nSystem Code: \(systemCode)"
             session.invalidate()
         }
@@ -185,6 +203,8 @@ class ViewController: UIViewController, NFCTagReaderSessionDelegate {
         if userDefaults.array(forKey: "logArray") != nil{
             logArray = userDefaults.array(forKey: "logArray") as! [[String]]
         }
+        if userDefaults.integer(forKey: "count") != 0{
+            count = userDefaults.integer(forKey: "count")
+        }
     }
 }
-
